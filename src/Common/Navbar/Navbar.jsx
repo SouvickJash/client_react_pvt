@@ -1,9 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const Navbar = () => {
   const navigate = useNavigate();
   const signOut = () => {
     localStorage.removeItem('token')
+    toast.error("Logout successfully");
     navigate("/");
   };
   const chnagePassword=()=>{
@@ -17,9 +21,9 @@ const Navbar = () => {
         className="header fixed-top d-flex align-items-center"
       >
         <div className="d-flex align-items-center justify-content-between">
-          <a href="index.html" className="logo d-flex align-items-center">
+          <a href="/home" className="logo d-flex align-items-center">
             <img src="assets/img/logo.png" alt />
-            <span className="d-none d-lg-block">Admin</span>
+            <span className="d-none d-lg-block">Admin Panel</span>
           </a>
           <i className="bi bi-list toggle-sidebar-btn" />
         </div>
@@ -117,6 +121,7 @@ const Navbar = () => {
         </nav>
         {/* End Icons Navigation */}
       </header>
+      <ToastContainer />
     </>
   );
 };

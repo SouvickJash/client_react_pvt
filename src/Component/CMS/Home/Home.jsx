@@ -1,38 +1,72 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Sidebar from "../../../Common/Sidebar/Sidebar";
 import Navbar from "../../../Common/Navbar/Navbar";
 import Head from "../../../Common/Head/Head";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Home = () => {
-  const navigate=useNavigate()
-      const isLogin = () => {
-      let token = localStorage.getItem("token");
-      if (token === null) {
-        navigate("/");
-      } else {
-        navigate("/home");
-      }
-      console.log("token....+", token);
-    };
-  
-    useEffect(() => {
-      isLogin();
-    },[]);
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [countTeacher, setCountTeacher] = useState("");
+
+  //teacher count
+  const getApi = async () => {
+    const response = await axios.get("/getcount");
+    console.log("count", response.data.totalTeacher);
+    setCountTeacher(response?.data.totalTeacher);
+  };
+
+  const isLogin = () => {
+    let token = localStorage.getItem("token");
+    if (token === null) {
+      navigate("/");
+    } else {
+      navigate("/home");
+    }
+    console.log("token....+", token);
+  };
+
+  useEffect(() => {
+    isLogin();
+    getApi(); //teacher count
+  }, []);
+  setTimeout(() => {
+    setLoading(false);
+  }, 1000);
+  if (loading) {
+    return (
+      <>
+        <div class="loader">
+          <svg
+            stroke="currentColor"
+            fill="currentColor"
+            stroke-width="0"
+            viewBox="0 0 24 24"
+            class="h-12 w-12 flex-shrink-0 spin"
+            height="1em"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M2 11h5v2H2zm15 0h5v2h-5zm-6 6h2v5h-2zm0-15h2v5h-2zM4.222 5.636l1.414-1.414 3.536 3.536-1.414 1.414zm15.556 12.728-1.414 1.414-3.536-3.536 1.414-1.414zm-12.02-3.536 1.414 1.414-3.536 3.536-1.414-1.414zm7.07-7.071 3.536-3.535 1.414 1.415-3.536 3.535z"></path>
+          </svg>
+        </div>
+      </>
+    );
+  }
   return (
     <>
-    <Head/>
-    <Navbar/>
-    <Sidebar/>
+      <Head />
+      <Navbar />
+      <Sidebar />
       <main id="main" className="main">
         <div className="pagetitle">
           <h1>Dashboard</h1>
           <nav>
             <ol className="breadcrumb">
               <li className="breadcrumb-item">
-                <Link to='/home'>Home</Link>
-              
+                <Link to="/home">Home</Link>
               </li>
               <li className="breadcrumb-item active">Dashboard</li>
             </ol>
@@ -74,16 +108,13 @@ const Home = () => {
                     </div>
                     <div className="card-body">
                       <h5 className="card-title">
-                        Sales <span>| Today</span>
+                        Total Teachers <h1>{countTeacher}</h1>
                       </h5>
                       <div className="d-flex align-items-center">
                         <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
                           <i className="bi bi-cart" />
                         </div>
-                        <div className="ps-3">
-                     
-                      
-                        </div>
+                        <div className="ps-3"></div>
                       </div>
                     </div>
                   </div>
@@ -125,10 +156,7 @@ const Home = () => {
                         <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
                           <i className="bi bi-currency-dollar" />
                         </div>
-                        <div className="ps-3">
-                         
-                       
-                        </div>
+                        <div className="ps-3"></div>
                       </div>
                     </div>
                   </div>
@@ -170,10 +198,7 @@ const Home = () => {
                         <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
                           <i className="bi bi-people" />
                         </div>
-                        <div className="ps-3">
-                   
-                       
-                        </div>
+                        <div className="ps-3"></div>
                       </div>
                     </div>
                   </div>
@@ -207,16 +232,13 @@ const Home = () => {
                         </li>
                       </ul>
                     </div>
-              
                   </div>
                 </div>
               </div>
             </div>
             {/* End Left side columns */}
             {/* Right side columns */}
-            <div className="col-lg-4">
-
-            </div>
+            <div className="col-lg-4"></div>
             {/* End Right side columns */}
           </div>
         </section>

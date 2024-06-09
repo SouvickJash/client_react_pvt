@@ -1,20 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Head from "../../../Common/Head/Head";
-import Navbar from "../../../Common/Navbar/Navbar";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import view from "../../../Image/view.svg";
 
 const Login = () => {
   // const notify = () => toast.success("Wow so easy!");
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [show, setShow] = useState(false);
 
   // const email1="admin@gmail.com";
   // const password1="admin123"
 
+  //show password
+  const passwordShow = () => {
+    setShow(!show);
+  };
   const submitLogin = async (e) => {
     e.preventDefault();
     // console.log("+++",email);
@@ -26,7 +30,8 @@ const Login = () => {
     //   setPassword("")
     //   navigate("/");
     //  }
-
+    setEmail("");
+    setPassword("");
     var obj = {
       email: email,
       password: password,
@@ -34,61 +39,48 @@ const Login = () => {
     console.log("value", obj);
 
     await axios
-      .post("/login", obj)
+      .post("/admin/login", obj)
       .then((response) => {
         console.log("response....login", response);
 
         if (response.data.status === 200) {
           toast.success(response.data.message);
+        // alert(response.data.message)
 
           localStorage.setItem("token", response.data.token); //settoken
           localStorage.setItem("id", response.data.info[0]._id);
-          console.log("helllooo", localStorage);
-          // toast.success("login success ")
+          // console.log("helllooo", localStorage);
+         
           navigate("/home");
+        
         } else if (response.data.status === 404) {
           console.log("response.status", response.data.status);
         }
       })
       .catch((error) => {
-        // console.log("response",error.response.data.message);
+        // console.log("response++++++++",error);
         if (error.response) {
-          // alert(error.response.data.message)
-          toast.success(error.response.data.message); 
-        } else {
-          alert("Error", error.message);
-        }
+          toast.error(error.response.data.error); //working
+        } 
       });
-
-   
   };
 
   return (
     <>
- {/* <Head/>  */}
-    {/* <Navbar/> */}
-      {/* <h1>login page</h1> */}
-      <main style={{ backgroundColor: "#0073e6" }}>
+      <main style={{ backgroundColor: "#4da6ff" }}>
         <div className="container">
           <section className="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
             <div className="container">
               <div className="row justify-content-center">
                 <div className="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
-                  <div className="d-flex justify-content-center py-4">
-                    {/* <a
-                      href="/"
-                      className="logo d-flex align-items-center w-auto"
-                    > */}
-                    {/* <img src="assets/img/logo.png" alt /> */}
-                    {/* <span className="d-none d-lg-block">NiceAdmin</span> */}
-                    {/* </a> */}
-                  </div>
-                  {/* End Logo */}
                   <div
                     className="card mb-3"
-                    style={{ width: "360px", height: "430px" }}
+                    style={{ width: "360px", height: "430px", borderRadius:13}}
                   >
-                    <div className="card-body">
+                    <div
+                      className="card-body"
+                      style={{ border: "1px solid green", borderRadius: 12 }}
+                    >
                       <div className="pt-4 pb-2">
                         <h3 className="card-title text-center pb-0 fs-4">
                           Login to Your Account
@@ -103,23 +95,14 @@ const Login = () => {
                             Email
                           </label>
                           <div className="input-group has-validation">
-                            {/* <span
-                              className="input-group-text"
-                              id="inputGroupPrepend"
-                            >
-                              @
-                            </span> */}
                             <input
-                              type="text"
+                              type="email"
                               name="name"
                               className="form-control"
                               placeholder="Email"
                               value={email}
                               onChange={(e) => setEmail(e.target.value)}
                             />
-                            <div className="invalid-feedback">
-                              Please enter your username.
-                            </div>
                           </div>
                         </div>
                         <div className="col-12">
@@ -127,37 +110,46 @@ const Login = () => {
                             Password
                           </label>
                           <input
-                            type="password"
+                            type={show ? "text" : "password"}
                             name="password"
                             placeholder="Password"
                             className="form-control"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                           />
-                          <div className="invalid-feedback">
-                            Please enter your password!
-                          </div>
+
+                          <img
+                            src={view}
+                            alt=""
+                            width="30"
+                            height="40"
+                            onClick={passwordShow}
+                            style={{ marginTop: -66, marginLeft: 280 }}
+                          />
                         </div>
-                        <div className="col-12">
+                        {/* <div className="col-12">
                           <div className="form-check">
                             <input
+                              style={{ marginTop: "-10px" }}
                               className="form-check-input"
                               type="checkbox"
                               name="remember"
                               defaultValue="true"
                               id="rememberMe"
                             />
-                            <label
+                            <p style={{ marginTop: "-10px" }}> Remember me</p>
+                            <h5
                               className="form-check-label"
                               htmlFor="rememberMe"
+                              style={{ marginTop: "-10px !impo" }}
                             >
                               Remember me
-                            </label>
+                            </h5>
                           </div>
-                        </div>
+                        </div> */}
                         <div className="col-12">
                           <button
-                            style={{ marginTop: "36px" }}
+                            style={{ marginTop: "20px" }}
                             className="btn btn-primary w-100"
                             type="submit"
                             onClick={submitLogin}
@@ -169,8 +161,16 @@ const Login = () => {
                           {/* <p className="small mb-0">Don't have account? <a href="pages-register.html">Create an account</a></p> */}
                         </div>
                         <div class="col-12">
-                      <p class="small mb-0">Don't have account? <a href="/register">Create an account</a></p>
-                    </div>
+                          <p class="small mb-0">
+                            Don't have account?{" "}
+                            <a href="/register">Create an account</a>
+                          </p>
+                        </div>
+                        <div class="col-12">
+                          <p class="small mb-0">
+                            <a href="/forgetpassword">Forget Password</a>
+                          </p>
+                        </div>
                       </form>
                     </div>
                   </div>
