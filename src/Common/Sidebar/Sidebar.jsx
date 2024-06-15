@@ -30,9 +30,12 @@ const Sidebar = () => {
               id="components-nav"
               className="nav-content collapse "
               data-bs-parent="#sidebar-nav"
+              
             >
+              
               <li>
-                <Link to={"/teacher"}>Teacher</Link>
+              
+                <Link to={"/teacher"}>Teacher Details</Link>
               </li>
             </ul>
           </li>
@@ -54,19 +57,10 @@ const Sidebar = () => {
               className="nav-content collapse "
               data-bs-parent="#sidebar-nav"
             >
-              <li>
-                <Link to={"/cse"}>CSE</Link>
+               <li>
+                <Link to={"/student"}>Student Details</Link>
               </li>
-              <li>
-                <Link to={"/electrical"}>Electrical</Link>
-              </li>
-              <li>
-                <Link to={"/mechinical"}>Mechanical</Link>
-              </li>
-              <li>
-                <Link to={"/electronic"}>Electronic</Link>
-              </li>
-            </ul>
+              </ul>
           </li>
           {/* End Forms Nav */}
           <li className="nav-item">
@@ -111,7 +105,7 @@ const Sidebar = () => {
           {/* End Profile Page Nav */}
 
           <li className="nav-item">
-            <a className="nav-link collapsed" href="pages-contact.html">
+            <a className="nav-link collapsed" href="/contact">
               <i className="bi bi-envelope" />
               <span>Contact</span>
             </a>

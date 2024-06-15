@@ -1,10 +1,24 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const[profile,setProfile]=useState({})
+  
+  const getAdminApi=async()=>{
+    const responce=await axios.get("/admin/getdata")
+    console.log("profile_image+++++",responce)
+    setProfile(responce?.data)
+  }
+
+useEffect(()=>{
+  getAdminApi()
+},[])
+// console.log("admin_image",profile)
+
   const signOut = () => {
     localStorage.removeItem('token')
     toast.error("Logout successfully");
@@ -16,13 +30,14 @@ const Navbar = () => {
   }
   return (
     <>
+   
       <header
         id="header"
         className="header fixed-top d-flex align-items-center"
       >
         <div className="d-flex align-items-center justify-content-between">
           <a href="/home" className="logo d-flex align-items-center">
-            <img src="assets/img/logo.png" alt />
+            <img src="assets/img/logo.png" alt />   
             <span className="d-none d-lg-block">Admin Panel</span>
           </a>
           <i className="bi bi-list toggle-sidebar-btn" />
@@ -45,6 +60,7 @@ const Navbar = () => {
             </button>
           </form>
         </div>
+       
         {/* End Search Bar */}
         <nav className="header-nav ms-auto">
           <ul className="d-flex align-items-center">
@@ -58,7 +74,8 @@ const Navbar = () => {
                 data-bs-toggle="dropdown"
               >
                 <img
-                  src="assets/img/profile-img.jpg"
+                   src="assets/img/profile-img.jpg"     //image set
+                  // src={profile?.data?.data?.userData?.image}
                   alt="Profile"
                   className="rounded-circle"
                 />

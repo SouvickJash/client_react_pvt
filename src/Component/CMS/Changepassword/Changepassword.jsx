@@ -15,6 +15,7 @@ const Changepassword = () => {
   const [show1, setShow1] = useState(false);
   const [password, setPassword] = useState("");
   const [confrompassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(true);
 
   //show password
   const passwordShow = () => {
@@ -61,6 +62,30 @@ const Changepassword = () => {
         });
     }
   };
+  // loading
+  setTimeout(() => {
+    setLoading(false);
+  }, 500);
+  if (loading) {
+    return (
+      <>
+        <div class="loader">
+          <svg
+            stroke="currentColor"
+            fill="currentColor"
+            stroke-width="0"
+            viewBox="0 0 24 24"
+            class="h-12 w-12 flex-shrink-0 spin"
+            height="1em"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M2 11h5v2H2zm15 0h5v2h-5zm-6 6h2v5h-2zm0-15h2v5h-2zM4.222 5.636l1.414-1.414 3.536 3.536-1.414 1.414zm15.556 12.728-1.414 1.414-3.536-3.536 1.414-1.414zm-12.02-3.536 1.414 1.414-3.536 3.536-1.414-1.414zm7.07-7.071 3.536-3.535 1.414 1.415-3.536 3.535z"></path>
+          </svg>
+        </div>
+      </>
+    );
+  }
   return (
     <>
       <Head />
@@ -93,12 +118,12 @@ const Changepassword = () => {
                       height: "400px",
                       marginLeft: -60,
                       marginTop: -90,
-                      borderRadius: 15,
+                      borderRadius: 7,
                     }}
                   >
                     <div
                       className="card-body"
-                      style={{ border: "1px solid blue", borderRadius: 10 }}
+                      style={{ border: "1px solid blue", borderRadius: 7 }}
                     >
                       <pre style={{ background: "#4d79ff", marginTop: 30 }}>
                         Reset password

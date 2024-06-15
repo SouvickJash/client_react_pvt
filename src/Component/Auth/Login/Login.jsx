@@ -44,15 +44,15 @@ const Login = () => {
         console.log("response....login", response);
 
         if (response.data.status === 200) {
-          toast.success(response.data.message);
+          // toast.success(response.data.message);
         // alert(response.data.message)
 
           localStorage.setItem("token", response.data.token); //settoken
           localStorage.setItem("id", response.data.info[0]._id);
           // console.log("helllooo", localStorage);
-         
+          toast.success(response.data.message);
           navigate("/home");
-        
+         
         } else if (response.data.status === 404) {
           console.log("response.status", response.data.status);
         }

@@ -7,7 +7,7 @@ const Resetpassword = () => {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [show1, setShow1] = useState(false);
-  const [otp, setOtp] = useState();
+  const [otp, setOtp] = useState(null);
   const [newpassword, setNewpassword] = useState();
   const [confirmpassword, setConfirmpassword] = useState();
 
