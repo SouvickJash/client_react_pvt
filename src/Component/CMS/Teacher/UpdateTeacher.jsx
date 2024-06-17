@@ -96,6 +96,7 @@ const UpdateTeacher = () => {
 
   return (
     <>
+    {/* <Navbar/> */}
       <main>
         <div className="container">
           <section className="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
@@ -138,9 +139,9 @@ const UpdateTeacher = () => {
                             className="form-control"
                             placeholder="Teacher name"
                             value={values.data?.Teacher_Name}
-                            // onChange={(e) => setValues({Teacher_Name: e.target.value})}
+                            onChange={(e) => setValues({Teacher_Name: e.target.value})}
                             // onChange={(e) => setValues(e.target.value)}
-                            onChange={handleChange}
+                            // onChange={handleChange}
                           />
                         </div>
 

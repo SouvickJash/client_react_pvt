@@ -24,7 +24,7 @@ const View = () => {
   return (
     <>
       <div
-        className="card text-white bg-primary mb-3"
+        className="card text-white bg-info mb-3"
         style={{
           maxWidth: "18rem",
           marginTop: 150,

@@ -13,15 +13,20 @@ import UpdateTeacher from "../Component/CMS/Teacher/UpdateTeacher";
 import Contact from "../Component/CMS/Contact/Contact";
 import View from "../Component/CMS/Teacher/View";
 
+import StudentDetails from "../Component/CMS/Student/StudentDetails";
+import StudentAdd from "../Component/CMS/Student/StudentAdd";
+import StudentView from "../Component/CMS/Student/StudentView";
+
 const MyRouter = () => {
   return (
     <>
       <Router>
+
         <Routes>
           <Route path="/home" element={<Home />} />
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/chnagepassword" element={<Changepassword />} />
+          {/* <Route path="/chnagepassword" element={<Changepassword />} /> */}
           <Route path="/forgetpassword" element={<Forgetpassword />} />
           <Route path="/resetpassword" element={<Resetpassword />} />
           <Route path="/teacher" element={<Teacher />} />
@@ -29,6 +34,12 @@ const MyRouter = () => {
           <Route path="/update/:id" element={<UpdateTeacher />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/view/:id" element={<View />} />
+
+          {/* student details */}
+          <Route path='/studentdetails' element={<StudentDetails/>}/>
+          <Route path='/studentadd' element={<StudentAdd/>}/>
+          <Route path='/viewdetails/:id' element={<StudentView/>}/>
+
           <Route path="/*" element={<Pagenotfound />} />
         </Routes>
       </Router>

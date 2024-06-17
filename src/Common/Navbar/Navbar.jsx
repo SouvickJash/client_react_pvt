@@ -1,43 +1,98 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import DeletePopup from "../Navbar/DeletePopup";
+import view from "../../Image/view.svg";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const[profile,setProfile]=useState({})
-  
-  const getAdminApi=async()=>{
-    const responce=await axios.get("/admin/getdata")
-    console.log("profile_image+++++",responce)
-    setProfile(responce?.data)
-  }
+  const [isOpen, setIsOpen] = useState(false);
+  const [profile, setProfile] = useState({});
 
-useEffect(()=>{
-  getAdminApi()
-},[])
-// console.log("admin_image",profile)
+  const [show, setShow] = useState(false);
+  const [show1, setShow1] = useState(false);
+  const [password, setPassword] = useState("");
+  const [confrompassword, setConfirmPassword] = useState("");
+
+  const getAdminApi = async () => {
+    const responce = await axios.get("/admin/getdata");
+    console.log("profile_image+++++", responce);
+    setProfile(responce?.data);
+  };
+  const togglePopup = () => {
+    setIsOpen(!isOpen);
+  };
+    //show password
+    const passwordShow = () => {
+      setShow(!show);
+    };
+    const passwordShow1 = () => {
+      setShow1(!show1);
+    };
+  //change password api
+  const submitPass = async (e) => {
+    e.preventDefault();
+    setPassword("");
+    setConfirmPassword("");
+    const id = localStorage.getItem("id");
+    var obj = {
+      user_id: id,
+      password: password,
+      confrompassword: confrompassword,
+    };
+    console.log("object+++", obj);
+    if (password === "") {
+      toast.error("Password is require");
+    } else if (confrompassword === "") {
+      toast.error("confirmpassword is require");
+    } else if (password !== confrompassword) {
+      toast.error("password and cpassword are not matched");
+    } else {
+      await axios
+        .post("/admin/updatepass", obj)
+        .then((response) => {
+          console.log("response.....", response);
+
+          if (response.status === 200) {
+            // toast.success(response.data.message);
+            alert(response.data.message);
+            navigate("/");
+          } else {
+            navigate("/chnagepassword");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          // toast.error(err);
+        });
+    }
+  };
+
+  useEffect(() => {
+    getAdminApi();
+  }, []);
+  // console.log("admin_image",profile)
 
   const signOut = () => {
-    localStorage.removeItem('token')
+    localStorage.removeItem("token");
     toast.error("Logout successfully");
     navigate("/");
   };
-  const chnagePassword=()=>{
-    console.log("hello")
-    navigate("/chnagepassword");
-  }
+  // const chnagePassword=()=>{
+  //   console.log("hello")
+  //   navigate("/chnagepassword");
+  // }
   return (
     <>
-   
       <header
         id="header"
         className="header fixed-top d-flex align-items-center"
       >
         <div className="d-flex align-items-center justify-content-between">
           <a href="/home" className="logo d-flex align-items-center">
-            <img src="assets/img/logo.png" alt />   
+            <img src="assets/img/logo.png" alt />
             <span className="d-none d-lg-block">Admin Panel</span>
           </a>
           <i className="bi bi-list toggle-sidebar-btn" />
@@ -60,9 +115,91 @@ useEffect(()=>{
             </button>
           </form>
         </div>
-       
+
         {/* End Search Bar */}
         <nav className="header-nav ms-auto">
+          {isOpen && (
+            <DeletePopup
+              content={
+                <>
+                  <div className="nested_popupcontent">
+                    <h6> Are you want to delete selected file?</h6>
+
+                    <form className="w-50a mx-auto mt-3 mb-5 p-5 border border-primary rounded-lg bg-light">
+                      <div
+                        class="form-group text-left"
+                        style={{ width: 250, marginLeft: -30 }}
+                      >
+                        <input
+                          type={show ? "text" : "password"}
+                          class="form-control"
+                          name="password"
+                          id="password"
+                          placeholder="New Password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <img
+                            src={view}
+                            alt=""
+                            width="30"
+                            height="40"
+                            onClick={passwordShow}
+                            style={{ marginTop: -66, marginLeft: 215 }}
+                          />
+                      </div>
+                      <div
+                        class="form-group text-left"
+                        style={{ width: 250, marginLeft: -30 }}
+                      >
+                        <input
+                          type={show1 ? "text" : "password"}
+                          class="form-control"
+                          name="password"
+                          id="password"
+                          placeholder="Confirm Password"
+                          value={confrompassword}
+                          onChange={(e) => setConfirmPassword(e.target.value)}
+                        />
+                        
+                          <img
+                            src={view}
+                            alt=""
+                            width="30"
+                            height="40"
+                            onClick={passwordShow1}
+                            style={{ marginTop: -66, marginLeft:215 }}
+                          />
+                      </div>
+                      {/* <div class="form-group text-left form-check">
+                        <input
+                          type="checkbox"
+                          class="form-check-input"
+                          id="exampleCheck1"
+                        />
+                        <label class="form-check-label" for="exampleCheck1">
+                          Show Password
+                        </label>
+                      </div> */}
+                      <div className="text-left">
+                        <button
+                          onClick={submitPass}
+                          style={{ width: 250, marginLeft: -30 }}
+                          type="submit"
+                          class="btn form-control btn-sm btn-dark"
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </form>
+                    <br />
+                    <div className="button_opt"></div>
+                  </div>
+                </>
+              }
+              handleClose={togglePopup}
+            />
+          )}
           <ul className="d-flex align-items-center">
             <li className="nav-item dropdown"></li>
             {/* End Notification Nav */}
@@ -74,13 +211,13 @@ useEffect(()=>{
                 data-bs-toggle="dropdown"
               >
                 <img
-                   src="assets/img/profile-img.jpg"     //image set
+                  src="assets/img/profile-img.jpg" //image set
                   // src={profile?.data?.data?.userData?.image}
                   alt="Profile"
                   className="rounded-circle"
                 />
                 <span className="d-none d-md-block dropdown-toggle ps-2">
-                 Souvick
+                  Souvick
                 </span>
               </a>
               {/* End Profile Iamge Icon */}
@@ -127,16 +264,16 @@ useEffect(()=>{
                     href="/chnagepassword"
                   >
                     <i className="bi bi-box-arrow-right" />
-                    <span onClick={chnagePassword}>Change Password</span>
+                    {/* <span onClick={chnagePassword}>Change Password</span> */}
+                    <Link>
+                      <span onClick={togglePopup}>Change Password</span>
+                    </Link>
                   </a>
                 </li>
               </ul>
-              {/* End Profile Dropdown Items */}
             </li>
-            {/* End Profile Nav */}
           </ul>
         </nav>
-        {/* End Icons Navigation */}
       </header>
       <ToastContainer />
     </>

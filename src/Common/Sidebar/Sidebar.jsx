@@ -58,7 +58,7 @@ const Sidebar = () => {
               data-bs-parent="#sidebar-nav"
             >
                <li>
-                <Link to={"/student"}>Student Details</Link>
+                <Link to={"/studentdetails"}>Student Details</Link>
               </li>
               </ul>
           </li>

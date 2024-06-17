@@ -11,7 +11,8 @@ const Home = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [countTeacher, setCountTeacher] = useState("");
- 
+  const [countStudent, setCountStudent] = useState("");
+
 
   //teacher count
   const getApi = async () => {
@@ -19,6 +20,13 @@ const Home = () => {
     console.log("count", response.data.totalTeacher);
     setCountTeacher(response?.data.totalTeacher);
   };
+  //student count
+  const getStudentCount = async () => {
+    const response = await axios.get("/getcountstudent");
+    console.log("count", response.data.totalStudent);
+    setCountStudent(response?.data.totalStudent);
+  };
+
   const isLogin = () => {
     let token = localStorage.getItem("token");
     if (token === null) {
@@ -32,11 +40,12 @@ const Home = () => {
   useEffect(() => {
     isLogin();
     getApi(); //teacher count
+    getStudentCount();  //student count
   }, []);
 
   setTimeout(() => {
     setLoading(false);
-  }, 700);
+  }, 500);
   if (loading) {
     return (
       <>
@@ -59,7 +68,6 @@ const Home = () => {
   }
   return (
     <>
-  
       <Head />
       <Navbar />
       <Sidebar />
@@ -81,19 +89,16 @@ const Home = () => {
             {/* Left side columns */}
             <div className="col-lg-8">
               <div className="row">
-
-
                 {/* teacher */}
                 <div className="col-xxl-4 col-md-6">
                   <div className="card info-card sales-card">
-                    
                     <div className="card-body">
                       <h5 className="card-title">
-                       Total Teacher <span>| Today</span>
+                        Total Teacher <span>| Today</span>
                       </h5>
                       <div className="d-flex align-items-center">
                         <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                        <i class="bi bi-people"></i>
+                          <i class="bi bi-people"></i>
                         </div>
                         <div className="ps-3">
                           <h6 style={{ color: "red" }}>{countTeacher}</h6>
@@ -102,25 +107,21 @@ const Home = () => {
                     </div>
                   </div>
                 </div>
-               
-
-         
 
                 {/* student Card */}
                 <div className="col-xxl-4 col-md-6">
                   <div className="card info-card sales-card">
-                    
                     <div className="card-body">
                       <h5 className="card-title">
-                       Total Student <span>| Today</span>
+                        Total Student <span>| Today</span>
                       </h5>
                       <div className="d-flex align-items-center">
                         <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                        <i class="bi bi-people"></i>
+                          <i class="bi bi-people"></i>
                         </div>
                         <div className="ps-3">
-                          {/* <h6 style={{ color: "red" }}>{countTeacher}</h6> */}
-                          <h6>Null</h6>
+                          <h6 style={{ color: "red" }}>{countStudent}</h6>
+                          
                         </div>
                       </div>
                     </div>
