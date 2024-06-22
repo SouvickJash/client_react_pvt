@@ -36,6 +36,17 @@ const Home = () => {
     }
     console.log("token....+", token);
   };
+  //teacher details
+  const teacherDetails=()=>{
+    navigate('/teacher')
+    // console.log("heyy")
+  }
+
+  //student details
+  const studentDetails=()=>{
+    navigate('/studentdetails')
+    // console.log("heyy")
+  }
 
   useEffect(() => {
     isLogin();
@@ -101,7 +112,8 @@ const Home = () => {
                           <i class="bi bi-people"></i>
                         </div>
                         <div className="ps-3">
-                          <h6 style={{ color: "red" }}>{countTeacher}</h6>
+                          {/* <h6 style={{ color: "red" }}>{countTeacher}</h6> */}
+                          <h6 ><a href="" onClick={teacherDetails}style={{ color: "red" }}>{countTeacher}</a></h6>
                         </div>
                       </div>
                     </div>
@@ -120,7 +132,8 @@ const Home = () => {
                           <i class="bi bi-people"></i>
                         </div>
                         <div className="ps-3">
-                          <h6 style={{ color: "red" }}>{countStudent}</h6>
+                          {/* <h6 style={{ color: "red" }} onClick={teacherDetails}>{countStudent}</h6> */}
+                          <h6 ><a href="" onClick={studentDetails}style={{ color: "red" }}>{countStudent}</a></h6>
                           
                         </div>
                       </div>

@@ -161,7 +161,7 @@ const StudentAdd = () => {
                         width="40"
                         height="40"
                         onClick={() => navigate(-1)}
-                        style={{ marginLeft: -100, marginTop: -170 }}
+                        style={{ marginLeft: -90, marginTop: -210 }}
                       />
                     </caption>
                   </NavLink>
@@ -214,11 +214,7 @@ const StudentAdd = () => {
                           setValues({ ...values, stream: e.target.value })
                         }
                       />
-                      {/* <select name="" id="">
-                        <option value="">a</option>
-                        <option value="">b</option>
-                        <option value="">c</option>
-                      </select> */}
+            
                     </div>
                     {/* City */}
                     <div data-mdb-input-init className="form-outline mb-4">
@@ -254,7 +250,7 @@ const StudentAdd = () => {
                       Sign up
                     </button>
 
-                    <div className="text-center">
+                    <div className="text-center" style={{marginLeft:-150}}>
                       View Detais:{" "}
                       <Link
                         type="button"

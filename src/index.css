@@ -21,10 +21,14 @@
     transform: rotate(360deg);
   }
 }
-/* 
-.addincom{
-  margin-top: 100px !important;
+
+.addicon1{
+  height: 68px;
+  width: 63px;
 }
+/* 
+
+
 .nav-link1{
   margin-top: 100px !important;
 }
@@ -52,4 +56,5 @@
 
 .w-50a {
   width: 100% !important;
+  margin-top: 100px !important;
 }

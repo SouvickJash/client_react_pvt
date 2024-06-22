@@ -127,7 +127,7 @@ const Teacheradd = () => {
                         width="40"
                         height="40"
                         onClick={() => navigate(-1)}
-                        style={{ marginLeft: -100, marginTop: -170 }}
+                        style={{ marginLeft: -90, marginTop: -210 }}
                       />
                     </caption>
                   </NavLink>
@@ -210,7 +210,7 @@ const Teacheradd = () => {
                       Sign up
                     </button>
 
-                    <div className="text-center">
+                    <div className="text-center" style={{marginLeft:-150}}>
                       View Detais:{" "}
                       <Link
                         type="button"

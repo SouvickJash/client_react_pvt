@@ -58,7 +58,8 @@ const Navbar = () => {
           if (response.status === 200) {
             // toast.success(response.data.message);
             alert(response.data.message);
-            navigate("/");
+            setIsOpen(false);
+            navigate("/home");
           } else {
             navigate("/chnagepassword");
           }
@@ -122,8 +123,8 @@ const Navbar = () => {
             <DeletePopup
               content={
                 <>
-                  <div className="nested_popupcontent">
-                    <h6> Are you want to delete selected file?</h6>
+                  <div className="nested_popupcontent" style={{marginTop:-80}}>
+                    {/* <h6> Are you want to delete selected file?</h6> */}
 
                     <form className="w-50a mx-auto mt-3 mb-5 p-5 border border-primary rounded-lg bg-light">
                       <div
@@ -171,16 +172,7 @@ const Navbar = () => {
                             style={{ marginTop: -66, marginLeft:215 }}
                           />
                       </div>
-                      {/* <div class="form-group text-left form-check">
-                        <input
-                          type="checkbox"
-                          class="form-check-input"
-                          id="exampleCheck1"
-                        />
-                        <label class="form-check-label" for="exampleCheck1">
-                          Show Password
-                        </label>
-                      </div> */}
+                  
                       <div className="text-left">
                         <button
                           onClick={submitPass}
@@ -261,7 +253,7 @@ const Navbar = () => {
                 <li>
                   <a
                     className="dropdown-item d-flex align-items-center"
-                    href="/chnagepassword"
+                    href="#"
                   >
                     <i className="bi bi-box-arrow-right" />
                     {/* <span onClick={chnagePassword}>Change Password</span> */}

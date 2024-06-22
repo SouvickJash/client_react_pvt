@@ -2,32 +2,35 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../../../Common/Sidebar/Sidebar";
 import Navbar from "../../../Common/Navbar/Navbar";
 import Head from "../../../Common/Head/Head";
-import Footer from "../../../Common/Footer/Footer";
 import addicon from "../../../Image/addicon.svg";
-import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import deleteuser from "../../../Image/deletenew2.svg";
 import view from "../../../Image/viewnew.svg";
 import edit from "../../../Image/edit.svg";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 const Teacher = () => {
+  const [teachers, setTeachers] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 5;
+
   const navigate = useNavigate();
-  
-  const [teacher, setTeacher] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  //fetch getdata
   const getApi = async () => {
     try {
       const response = await axios.get("/getteacher");
-      setTeacher(response?.data);
+      setTeachers(response?.data?.Data || []);
     } catch (error) {
       console.error("Error fetching teachers:", error);
     }
     setLoading(false);
   };
-
+ 
+  //sweetalert delete
   const DeleteTeacherDetails = async (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -36,20 +39,40 @@ const Teacher = () => {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
+      confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
           await axios.delete(`/delete/${id}`);
           Swal.fire("Deleted!", "Your file has been deleted.", "success");
-          getApi(); //calling getapi
-          // toast.success("Data deleted successfully");
+          getApi(); //calling getApi again to refresh the data
         } catch (error) {
           console.error("Error deleting teacher:", error);
-          Swal.fire("Error!", "There was a problem deleting the teacher.", "error");
+          Swal.fire(
+            "Error!",
+            "There was a problem deleting the teacher.",
+            "error"
+          );
         }
       }
     });
+  };
+
+  //pagination function calling
+  const prePage = () => {
+    if (currentPage !== 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const changePage = (id) => {
+    setCurrentPage(id);
+  };
+
+  const nextPage = () => {
+    if (currentPage !== Math.ceil(teachers.length / recordsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
   };
 
   useEffect(() => {
@@ -75,6 +98,13 @@ const Teacher = () => {
     );
   }
 
+  //pagination 
+  const lastIndex = currentPage * recordsPerPage;
+  const firstIndex = lastIndex - recordsPerPage;
+  const records = teachers.slice(firstIndex, lastIndex);
+  const npage = Math.ceil(teachers.length / recordsPerPage);
+  const numbers = [...Array(npage + 1).keys()].slice(1);
+
   return (
     <>
       <Head />
@@ -94,12 +124,12 @@ const Teacher = () => {
                 <NavLink className="nav-link1" to="/teacheradd">
                   <caption>
                     <img
-                      className="addicon"
+                      className="addicon1"
                       src={addicon}
                       alt=""
                       width="40"
                       height="40"
-                      style={{ marginLeft: 150, marginBottom: -20 }}
+                      style={{ marginLeft: 150, marginTop: -40, height: 60, width: 60 }}
                     />
                   </caption>
                 </NavLink>
@@ -114,69 +144,84 @@ const Teacher = () => {
               <div className="card">
                 <div className="card-body">
                   <h5 className="card-title">Datatables: </h5>
-
-                  <table className="table datatable">
-                    <thead>
-                      <tr>
-                        <th>Sl.No</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Depterment</th>
-                        <th>Phone</th>
-                        <th>City</th>
-                        <th>Age</th>
-                        <th colSpan="2">Action</th>
-                      </tr>
-                    </thead>
-                    {teacher.Data?.map((item, index) => (
-                      <tbody key={index}>
+                  {records.length > 0 ? (
+                    <table className="table datatable">
+                      <thead>
                         <tr>
-                          <td>
-                            <strong>{index + 1}</strong>
-                          </td>
-                          <td>{item.Teacher_Name}</td>
-                          <td>{item.Depterment}</td>
-                          <td>{item.Email}</td>
-                          <td>{item.Phone}</td>
-                          <td>{item.City}</td>
-                          <td>{item.Age}</td>
-                          <td>
-                            <Link to={`/view/${item._id}`}>
-                              <img
-                                src={view}
-                                alt=""
-                                width="30"
-                                height="30"
-                              />
-                            </Link>
-                          </td>
-                          <td>
-                            <Link to={`/update/${item._id}`}>
-                              <img
-                                src={edit}
-                                alt=""
-                                width="30"
-                                height="30"
-                              />
-                            </Link>
-                          </td>
-                          <td>
-                            <Link>
-                            <img
-                              src={deleteuser}
-                              alt=""
-                              width="30"
-                              height="30"
-                              onClick={() =>
-                                DeleteTeacherDetails(item._id)
-                              }
-                            />
-                            </Link>
-                          </td>
+                          <th>Sl.No</th>
+                          <th>Name</th>
+                          <th>Department</th>
+                          <th>Email</th>
+                          <th>Phone</th>
+                          <th>City</th>
+                          <th>Age</th>
+                          <th colSpan="3">Action</th>
                         </tr>
-                      </tbody>
-                    ))}
-                  </table>
+                      </thead>
+                      {records.map((item, index) => (
+                        <tbody key={index}>
+                          <tr>
+                            <td>
+                              <strong>{(currentPage - 1) * recordsPerPage + index + 1}</strong>
+                            </td>
+                            <td>{item.Teacher_Name}</td>
+                            <td>{item.Depterment}</td>
+                            <td>{item.Email}</td>
+                            <td>{item.Phone}</td>
+                            <td>{item.City}</td>
+                            <td>{item.Age}</td>
+                            <td>
+                              <Link to={`/view/${item._id}`}>
+                                <img src={view} alt="" width="30" height="30" />
+                              </Link>
+                            </td>
+                            <td>
+                              <Link to={`/update/${item._id}`}>
+                                <img src={edit} alt="" width="30" height="30" />
+                              </Link>
+                            </td>
+                            <td>
+                              <img
+                                src={deleteuser}
+                                alt=""
+                                width="30"
+                                height="30"
+                                onClick={() => DeleteTeacherDetails(item._id)}
+                                style={{ cursor: "pointer" }}
+                              />
+                            </td>
+                          </tr>
+                        </tbody>
+                      ))}
+                    </table>
+                  ) : (
+                    <div className="alert alert-info" role="alert">
+                      <h4 style={{ marginLeft: 300 }}>No Teacher Found</h4>
+                    </div>
+                  )}
+
+                  {/* pagination */}
+                  <nav>
+                    <ul className="pagination">
+                      <li className="page-item">
+                        <a href="#" className="page-link" onClick={prePage}>
+                          Prev
+                        </a>
+                      </li>
+                      {numbers.map((n, i) => (
+                        <li className={`page-item ${currentPage === n ? "active" : ""}`} key={i}>
+                          <a href="#" className="page-link" onClick={() => changePage(n)}>
+                            {n}
+                          </a>
+                        </li>
+                      ))}
+                      <li className="page-item">
+                        <a href="#" className="page-link" onClick={nextPage}>
+                          Next
+                        </a>
+                      </li>
+                    </ul>
+                  </nav>
                 </div>
               </div>
             </div>

@@ -4,6 +4,8 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import view from "../../../Image/view.svg";
+// import showemail from "../../../Image/email.svg";
+import view1 from "../../../Image/email.svg";
 
 const Login = () => {
   // const notify = () => toast.success("Wow so easy!");
@@ -45,14 +47,13 @@ const Login = () => {
 
         if (response.data.status === 200) {
           // toast.success(response.data.message);
-        // alert(response.data.message)
+          // alert(response.data.message)
 
           localStorage.setItem("token", response.data.token); //settoken
           localStorage.setItem("id", response.data.info[0]._id);
           // console.log("helllooo", localStorage);
           toast.success(response.data.message);
           navigate("/home");
-         
         } else if (response.data.status === 404) {
           console.log("response.status", response.data.status);
         }
@@ -61,7 +62,7 @@ const Login = () => {
         // console.log("response++++++++",error);
         if (error.response) {
           toast.error(error.response.data.error); //working
-        } 
+        }
       });
   };
 
@@ -75,7 +76,11 @@ const Login = () => {
                 <div className="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
                   <div
                     className="card mb-3"
-                    style={{ width: "360px", height: "430px", borderRadius:13}}
+                    style={{
+                      width: "360px",
+                      height: "430px",
+                      borderRadius: 13,
+                    }}
                   >
                     <div
                       className="card-body"
@@ -94,17 +99,26 @@ const Login = () => {
                           <label htmlFor="yourUsername" className="form-label">
                             Email
                           </label>
-                          <div className="input-group has-validation">
+                          <div class="form-group text-left">
                             <input
                               type="email"
-                              name="name"
-                              className="form-control"
+                              class="form-control"
+                              name="email"
+                              id="email"
                               placeholder="Email"
                               value={email}
                               onChange={(e) => setEmail(e.target.value)}
                             />
+                            <img
+                              src={view1}
+                              alt=""
+                              width="30"
+                              height="40"
+                              style={{ marginTop: -66, marginLeft: 280 }}
+                            />
                           </div>
                         </div>
+
                         <div className="col-12">
                           <label htmlFor="yourPassword" className="form-label">
                             Password
@@ -149,7 +163,7 @@ const Login = () => {
                         </div> */}
                         <div className="col-12">
                           <button
-                            style={{ marginTop: "20px" }}
+                            style={{ marginTop: -1 }}
                             className="btn btn-primary w-100"
                             type="submit"
                             onClick={submitLogin}
@@ -161,13 +175,13 @@ const Login = () => {
                           {/* <p className="small mb-0">Don't have account? <a href="pages-register.html">Create an account</a></p> */}
                         </div>
                         <div class="col-12">
-                          <p class="small mb-0">
+                          <p class="small mb-0" >
                             Don't have account?{" "}
                             <a href="/register">Create an account</a>
                           </p>
                         </div>
                         <div class="col-12">
-                          <p class="small mb-0">
+                          <p class="small mb-0" >
                             <a href="/forgetpassword">Forget Password</a>
                           </p>
                         </div>

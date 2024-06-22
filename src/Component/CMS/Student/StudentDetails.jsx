@@ -4,9 +4,8 @@ import Navbar from "../../../Common/Navbar/Navbar";
 import Head from "../../../Common/Head/Head";
 import Footer from "../../../Common/Footer/Footer";
 import addicon from "../../../Image/addicon.svg";
-import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { toast } from "react-toastify";
 import deleteuser from "../../../Image/deletenew2.svg";
 import view from "../../../Image/viewnew.svg";
 import edit from "../../../Image/edit.svg";
@@ -18,20 +17,15 @@ const StudentDetails = () => {
   const [loading, setLoading] = useState(true);
 
   const getApi = async () => {
-    const response = await axios.get("/getstudent");
-    console.log("studentgetdata",response)
-    setStudent(response?.data);
+    try {
+      const response = await axios.get("/getstudent");
+      // console.log("studentgetdata", response);
+      setStudent(response?.data);
+    } catch (error) {
+      console.error("Error fetching students:", error);
+    }
+    setLoading(false);
   };
-
-  // delete details
-  // const DeleteTeacherDetails = async (id) => {
-  //   if (window.confirm("Do you want to Delete Data ?")) {
-  //     axios.delete(`/deletestudent/${id}`);
-  //     toast.success("Data deleted successfully");
-  //     getApi();
-  //   } else {
-  //   }
-  // };
 
   const DeleteStudentDetails = async (id) => {
     Swal.fire({
@@ -47,33 +41,33 @@ const StudentDetails = () => {
         try {
           await axios.delete(`/deletestudent/${id}`);
           Swal.fire("Deleted!", "Your file has been deleted.", "success");
-          getApi(); //calling getapi
-          // toast.success("Data deleted successfully");
+          getApi();
         } catch (error) {
-          console.error("Error deleting teacher:", error);
-          Swal.fire("Error!", "There was a problem deleting the teacher.", "error");
+          console.error("Error deleting student:", error);
+          Swal.fire("Error!", "There was a problem deleting the student.", "error");
         }
       }
     });
   };
 
-
   useEffect(() => {
     getApi();
   }, []);
+
   setTimeout(() => {
     setLoading(false);
-  }, 500);
+  }, 1000);
+
   if (loading) {
     return (
       <>
-        <div class="loader">
+        <div className="loader">
           <svg
             stroke="currentColor"
             fill="currentColor"
-            stroke-width="0"
+            strokeWidth="0"
             viewBox="0 0 24 24"
-            class="h-12 w-12 flex-shrink-0 spin"
+            className="h-12 w-12 flex-shrink-0 spin"
             height="1em"
             width="1em"
             xmlns="http://www.w3.org/2000/svg"
@@ -84,6 +78,7 @@ const StudentDetails = () => {
       </>
     );
   }
+
   return (
     <>
       <Head />
@@ -108,8 +103,7 @@ const StudentDetails = () => {
                       alt=""
                       width="40"
                       height="40"
-                      // onClick={() => navigate(-1)}
-                      style={{ marginLeft: 150, marginBottom: -20 }}
+                      style={{ marginLeft: 150, marginTop:-40,height:60,width: 60 }}
                     />
                   </caption>
                 </NavLink>
@@ -118,85 +112,67 @@ const StudentDetails = () => {
           </nav>
         </div>
 
-        {/* End Page Title */}
         <section className="section">
           <div className="row">
             <div className="col-lg-12">
               <div className="card">
                 <div className="card-body">
-                  <h5 className="card-title">Datatables: </h5>
-
-                  {/* Table with stripped rows */}
-                  <table className="table datatable" >
-                    <thead >
-                      <tr>
-                        <th>Sl.No</th>
-                        <th>Student Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Stream</th>
-                        <th>City</th>
-                        <th>Age</th>
-                        <th colspan="2">Action</th>
-                      </tr>
-                    </thead>
-                    {student.data?.map((item, index) => {
-                      //node js
-                      return (
-                        <>
-                          <tbody>
-                            <tr key={index}>
-                              <td>
-                                <strong>{index + 1}</strong>
-                              </td>
-                              <td>{item.student_name}</td>
-                              <td>{item.email}</td>
-                              <td>{item.phone}</td>
-                              <td>{item.stream}</td>
-                              <td>{item.city}</td>
-                              <td>{item.age}</td>
-                             
-                        
-
-                              <td>
-                                <Link to={`/viewdetails/${item._id}`}>
-                                  <img
-                                    src={view}
-                                    alt=""
-                                    width="30"
-                                    height="30"
-                                  />
-                                </Link>
-                              </td>
-                              <td>
-                                <Link to={`/update/${item._id}`}>
-                                  <img
-                                    src={edit}
-                                    alt=""
-                                    width="30"
-                                    height="30"
-                                  />
-                                </Link>
-                              </td>
-                              <td>
-                                <Link>
-                                  <img
-                                    src={deleteuser}
-                                    alt=""
-                                    width="30"
-                                    height="30"
-                                    onClick={() =>
-                                      DeleteStudentDetails(item._id)
-                                    }
-                                  />
-                                </Link>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </>
-                      );
-                    })}
-                  </table>
+                  <h5 className="card-title">Datatables:</h5>
+                  {student.data && student.data.length > 0 ? (
+                    <table className="table datatable">
+                      <thead>
+                        <tr>
+                          <th>Sl.No</th>
+                          <th>Student Name</th>
+                          <th>Email</th>
+                          <th>Phone</th>
+                          <th>Stream</th>
+                          <th>City</th>
+                          <th>Age</th>
+                          <th colSpan="2">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {student.data.map((item, index) => (
+                          <tr key={index}>
+                            <td>
+                              <strong>{index + 1}</strong>
+                            </td>
+                            <td>{item.student_name}</td>
+                            <td>{item.email}</td>
+                            <td>{item.phone}</td>
+                            <td>{item.stream}</td>
+                            <td>{item.city}</td>
+                            <td>{item.age}</td>
+                            <td>
+                              <Link to={`/viewdetails/${item._id}`}>
+                                <img src={view} alt="" width="30" height="30" />
+                              </Link>
+                            </td>
+                            <td>
+                              <Link to={`/studentupdate/${item._id}`}>
+                                <img src={edit} alt="" width="30" height="30" />
+                              </Link>
+                            </td>
+                            <td>
+                              <img
+                                src={deleteuser}
+                                alt=""
+                                width="30"
+                                height="30"
+                                onClick={() => DeleteStudentDetails(item._id)}
+                                style={{ cursor: "pointer" }}
+                              />
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  ) : (
+                    <div className="alert alert-info" role="alert">
+                      <h4 style={{ textAlign: "center" }}>No Student Data Found</h4>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -208,4 +184,3 @@ const StudentDetails = () => {
 };
 
 export default StudentDetails;
-

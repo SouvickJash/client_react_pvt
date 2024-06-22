@@ -6,7 +6,7 @@ import Changepassword from "../Component/CMS/Changepassword/Changepassword";
 import Register from "../Component/Auth/Register/Register";
 import Forgetpassword from "../Component/CMS/Forgetpassword/Forgetpassword";
 import Resetpassword from "../Component/CMS/Resetpassword/Resetpassword";
-import Pagenotfound from "../Component/CMS/Pagenotgound/Pagenotfound";
+import Pagenotfound from "../Component/CMS/PagenotFound/Pagenotfound";
 import Teacher from "../Component/CMS/Teacher/Teacher";
 import Teacheradd from "../Component/CMS/Teacher/Teacheradd";
 import UpdateTeacher from "../Component/CMS/Teacher/UpdateTeacher";
@@ -16,6 +16,7 @@ import View from "../Component/CMS/Teacher/View";
 import StudentDetails from "../Component/CMS/Student/StudentDetails";
 import StudentAdd from "../Component/CMS/Student/StudentAdd";
 import StudentView from "../Component/CMS/Student/StudentView";
+import StudentUpdate from "../Component/CMS/Student/StudentUpdate";
 
 const MyRouter = () => {
   return (
@@ -39,6 +40,7 @@ const MyRouter = () => {
           <Route path='/studentdetails' element={<StudentDetails/>}/>
           <Route path='/studentadd' element={<StudentAdd/>}/>
           <Route path='/viewdetails/:id' element={<StudentView/>}/>
+          <Route path='/studentupdate/:id' element={<StudentUpdate/>}/>
 
           <Route path="/*" element={<Pagenotfound />} />
         </Routes>

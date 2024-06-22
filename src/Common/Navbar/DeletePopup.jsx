@@ -17,14 +17,14 @@ const DeletePopup = (props) => {
           position: "relative",
           width: "40%",
           margin: "0 auto",
-          height: "300px",
+          height: "360px",
           maxHeight: "170vh",
           marginTop: "calc(100vh - 85vh - 20px)",
           background: "#fff",
           borderRadius: "10px",
           padding: "100px",
           border: "2px solid #999",
-          overflow: "auto",
+          // overflow: "auto",
         //   width: "50% !important"
         }}
       >

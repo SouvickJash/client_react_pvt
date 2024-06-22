@@ -20,7 +20,7 @@ const Sidebar = () => {
               className="nav-link collapsed"
               data-bs-target="#components-nav"
               data-bs-toggle="collapse"
-              href="#"
+              href=""
             >
               <i className="bi bi-menu-button-wide" />
               <span>Teacher</span>
@@ -46,7 +46,7 @@ const Sidebar = () => {
               className="nav-link collapsed"
               data-bs-target="#forms-nav"
               data-bs-toggle="collapse"
-              href="#"
+              href=""
             >
               <i className="bi bi-journal-text" />
               <span>Student</span>
