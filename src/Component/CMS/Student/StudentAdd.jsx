@@ -247,6 +247,7 @@ const StudentAdd = () => {
                       data-mdb-ripple-init
                       className="btn btn-dark btn-block mb-4"
                     >
+                      {/* <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> */}
                       Sign up
                     </button>
 

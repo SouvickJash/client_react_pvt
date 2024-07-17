@@ -63,7 +63,7 @@ const Sidebar = () => {
               </ul>
           </li>
           {/* End Forms Nav */}
-          <li className="nav-item">
+          {/* <li className="nav-item">
             <a
               className="nav-link collapsed"
               data-bs-target="#tables-nav"
@@ -92,7 +92,7 @@ const Sidebar = () => {
                 </a>
               </li>
             </ul>
-          </li>
+          </li> */}
           {/* End Tables Nav */}
 
           <li className="nav-heading">Pages</li>
@@ -118,19 +118,19 @@ const Sidebar = () => {
             </a>
           </li>
           {/* End Register Page Nav */}
-          <li className="nav-item">
+          {/* <li className="nav-item">
             <a className="nav-link collapsed" href="/">
               <i className="bi bi-box-arrow-in-right" />
               <span>Login</span>
             </a>
-          </li>
+          </li> */}
           {/* End Login Page Nav */}
-          <li className="nav-item">
+          {/* <li className="nav-item">
             <a className="nav-link collapsed" href="pages-error-404.html">
               <i className="bi bi-dash-circle" />
               <span>Error 404</span>
             </a>
-          </li>
+          </li> */}
           {/* End Error 404 Page Nav */}
         </ul>
       </aside>

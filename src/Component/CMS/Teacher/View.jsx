@@ -46,7 +46,7 @@ useEffect(()=>{
   return (
     <>
       <div
-        className="card text-white bg-info mb-3"
+        className="card text-white bg-dark mb-3"
         style={{
           maxWidth: "18rem",
           marginTop: 150,
@@ -70,11 +70,11 @@ useEffect(()=>{
               <h5>Loading data...</h5>
             )}
           </main>
-          <Link type="button" class="btn btn-dark btn-sm" to={`/teacher`}>
+          <Link type="button" class="btn btn-danger btn-sm" to={`/teacher`}>
             Back
           </Link>
           &ensp;
-          <Link type="button" class="btn btn-dark btn-sm" to={`/update/${id}`}>
+          <Link type="button" class="btn btn-danger btn-sm" to={`/update/${id}`}>
             Edit User
           </Link>
         </div>

@@ -18,7 +18,7 @@ const Navbar = () => {
 
   const getAdminApi = async () => {
     const responce = await axios.get("/admin/getdata");
-    console.log("profile_image+++++", responce);
+    // console.log("profile_image+++++", responce);
     setProfile(responce?.data);
   };
   const togglePopup = () => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useParams, useNavigate, Link } from "react-router-dom";
 import leftarrow from "../../../Image/left-arrow.svg";
 import axios from "axios";
@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const UpdateTeacher = () => {
   const { id } = useParams();
+  const[edit,setEdit]=useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const [teacher, setTeacher] = useState("");
@@ -20,29 +21,21 @@ const UpdateTeacher = () => {
   const [city, setCity] = useState("");
   const [age, setAge] = useState("");
 
-  //get api
-  // useEffect(() => {
-  //   axios
-  //     .get(`/edit/${id}`)
-  //     .then((res) => {
-  //       console.log("getEditdetails+++++++", res);
-  //       setValues(res.data);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, []);
 
-  // update
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  //   axios
-  //     .put(`/update/${id}`, values)
-  //     .then((res) => {
-  //       console.log("responce++++++", res);
-  //       toast.success("Teacher updated successfully!");
-  //       navigate("/teacher");
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
+
+  
+  
+//getapi2
+  const getEditApi = async () => {
+    try {
+      const response = await axios.get(`/edit/${id}`);
+      // console.log("Editapi",response)
+      setEdit(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+
+  };
 
   const getTeacherDetails = async (e) => {
     e.preventDefault();
@@ -72,51 +65,20 @@ const UpdateTeacher = () => {
       })
       .catch((error) => {
         console.log("error++++", error);
+
         // if (error.response) {
         //   toast.error(error.response.data.error); //working
         // }
       });
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
 
-  // var obj = {
-  //   id:id,
-  //   Teacher_Name: name,
-  //   Depterment: depterment,
-  //   Email: email,
-  //   Phone: phone,
-  //   City: city,
-  //   Age: age,
-  // };
-  // console.log("value", obj);
+useEffect(()=>{
+  getEditApi();
+},[])
+console.log("edit........",edit)
 
-  //   await axios
-  //     .put(`/update/${id}`,values)
-  //     .then((response) => {
-  //       console.log("response+++", response);
-
-  //       if (response.data.data.status === 201) {
-  //         toast.success(response.data.message);
-  //         navigate("/teacher");
-
-  //       } else if (response.data.status === 404) {
-  //         console.log("response.status", response.data.status);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.log("error++++", error);
-  //       // if (error.response) {
-  //       //   toast.error(error.response.data.error); //working
-  //       // }
-  //     });
-  // };
-
-  // useEffect(() => {
-  //   editData();
-  // }, []);
-
+  
   setTimeout(() => {
     setLoading(false);
   }, 500);
@@ -179,6 +141,8 @@ const UpdateTeacher = () => {
                     >
                       Create an Teacher Account
                     </h5>
+                   
+                 
                   </div>
                   <NavLink className="nav-link1" to="/home">
                     <caption>
@@ -202,9 +166,10 @@ const UpdateTeacher = () => {
                         id="form3Example3"
                         className="form-control"
                         placeholder="Teacher Name"
-                        value={teacher}
+                        // value={teacher}
                         onChange={(e) => setTeacher(e.target.value)}
-                        // defaultValue={Teacher_Name}
+                        defaultValue={edit.data.Teacher_Name}
+                      
 
                  
                       />
@@ -216,9 +181,9 @@ const UpdateTeacher = () => {
                         id="form3Example3"
                         className="form-control"
                         placeholder="Depterment"
-                        value={depterment}
+                        // value={depterment}
                         onChange={(e) => setDepterment(e.target.value)}
-
+                        defaultValue={edit.data.Depterment}
                       
                       />
                     </div>
@@ -230,8 +195,9 @@ const UpdateTeacher = () => {
                         id="form3Example3"
                         className="form-control"
                         placeholder="Email"
-                        value={email}
+                        // value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        defaultValue={edit.data.Email}
                      
                       />
                     </div>
@@ -242,9 +208,9 @@ const UpdateTeacher = () => {
                         id="form3Example3"
                         className="form-control"
                         placeholder="Phone"
-                        value={phone}
+                        // value={phone}
                         onChange={(e) => setPhone(e.target.value)}
-                     
+                        defaultValue={edit.data.Phone}
                       />
                     </div>
                     {/* City */}
@@ -254,8 +220,9 @@ const UpdateTeacher = () => {
                         id="form3Example3"
                         className="form-control"
                         placeholder="City"
-                        value={city}
+                        // value={city}
                         onChange={(e) => setCity(e.target.value)}
+                        defaultValue={edit.data.City}
             
                       />
                     </div>
@@ -266,8 +233,9 @@ const UpdateTeacher = () => {
                         id="form3Example3"
                         className="form-control"
                         placeholder="Age"
-                        value={age}
+                        // value={age}
                         onChange={(e) => setAge(e.target.value)}
+                        defaultValue={edit.data.Age}
        
                       />
                     </div>

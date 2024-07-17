@@ -44,7 +44,8 @@ const Teacher = () => {
       if (result.isConfirmed) {
         try {
           await axios.delete(`/delete/${id}`);
-          Swal.fire("Deleted!", "Your file has been deleted.", "success");
+          toast.success("Data Deleted Successfully.");
+          // Swal.fire("Deleted!", "Your file has been deleted.", "success");
           getApi(); //calling getApi again to refresh the data
         } catch (error) {
           console.error("Error deleting teacher:", error);

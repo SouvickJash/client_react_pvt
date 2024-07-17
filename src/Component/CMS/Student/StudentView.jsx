@@ -48,7 +48,7 @@ const StudentView = () => {
   return (
     <>
       <div
-        className="card text-white bg-primary mb-3"
+        className="card text-white bg-dark mb-3"
         style={{
           maxWidth: "18rem",
           marginTop: 150,
@@ -75,7 +75,7 @@ const StudentView = () => {
           </main>
           <Link
             type="button"
-            class="btn btn-dark btn-sm"
+            class="btn btn-danger btn-sm"
             to={`/studentdetails`}
           >
             Back
@@ -83,7 +83,7 @@ const StudentView = () => {
           &ensp;
           <Link
             type="button"
-            class="btn btn-dark btn-sm"
+            class="btn btn-danger btn-sm"
             to={`/updatestudent/${id}`}
           >
             Edit User
