@@ -5,12 +5,15 @@ import Navbar from "../../../Common/Navbar/Navbar";
 import Head from "../../../Common/Head/Head";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-// import Button from "@mui/material/Button";
-// import { PieChart } from "react-minimal-pie-chart";
-
 import { PieChart } from "@mui/x-charts/PieChart";
-// import { BarChart } from '@mui/x-charts/BarChart';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -19,13 +22,35 @@ const Home = () => {
   const [countStudent, setCountStudent] = useState("");
 
   const data = [
-    { id: 0, value: countTeacher, label: "Teachers", color: "rgb(2, 178, 175)" },
-    { id: 1, value: countStudent, label: "Students", color: "rgb(46, 150, 250)" },
+    {
+      id: 0,
+      value: countTeacher,
+      label: "Teachers",
+      color: "rgb(2, 178, 175)",
+    },
+    {
+      id: 1,
+      value: countStudent,
+      label: "Students",
+      color: "rgb(46, 150, 250)",
+    },
   ];
+  
   const barChartData = [
-    {value: countTeacher,name: 'Teachers', count: countTeacher, fill: "rgb(2, 178, 175)"},
-    {value: countStudent,name: 'Students', count: countStudent, fill: "rgb(46, 150, 250)"},
+    {
+      value: countTeacher,
+      name: "Teachers",
+      count: countTeacher,
+      fill: "rgb(2, 178, 175)",
+    },
+    {
+      value: countStudent,
+      name: "Students",
+      count: countStudent,
+      fill: "rgb(46, 150, 250)",
+    },
   ];
+
   //teacher count
   const getApi = async () => {
     const response = await axios.get("/getcount");
@@ -38,7 +63,7 @@ const Home = () => {
     console.log("count", response.data.totalStudent);
     setCountStudent(response?.data.totalStudent);
   };
-
+ // 
   const isLogin = () => {
     let token = localStorage.getItem("token");
     if (token === null) {
@@ -75,7 +100,7 @@ const Home = () => {
         <div
           class="spinner-border text-primary"
           role="status"
-          style={{ marginLeft: 630, marginTop: 250 , width:50,height:50}}
+          style={{ marginLeft: 630, marginTop: 250, width: 50, height: 50 }}
         >
           <span class="sr-only">Loading...</span>
         </div>
@@ -170,22 +195,29 @@ const Home = () => {
                       </h5>
                       <PieChart
                         series={[
-                          {             
+                          {
                             data,
                           },
                         ]}
                         height={200}
                         width={300}
-                        marginLeft={100}
+                        marginLeft={200}
                       />
 
-            
+
+                      <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <div className="count"></div>
+                        <span className="teachers">Teachers</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span className="students">Students</span>
+                      </div>
+                      
+                      
                     </div>
                   </div>
                 </div>
 
-                   {/* bar chart */}
-                   <div className="col-xxl-4 col-md-6">
+                {/* bar chart */}
+                <div className="col-xxl-4 col-md-6">
                   <div className="card info-card sales-card">
                     <div className="card-body">
                       <h5 className="card-title">
@@ -193,23 +225,18 @@ const Home = () => {
                       </h5>
                       <ResponsiveContainer width="90%" height={200}>
                         <BarChart data={barChartData}>
-                        
                           <XAxis dataKey="name" />
                           <YAxis />
                           <Tooltip />
                           {/* <Legend /> */}
                           <Bar dataKey="count" />
-                        
                         </BarChart>
                       </ResponsiveContainer>
-
-            
                     </div>
                   </div>
                 </div>
 
                 {/* <Button variant="contained">Contained</Button> */}
-
               </div>
             </div>
             {/* End Left side columns */}

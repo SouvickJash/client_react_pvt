@@ -13,11 +13,42 @@ import Swal from "sweetalert2";
 
 const Teacher = () => {
   const [teachers, setTeachers] = useState([]);
+
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 5;
-
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
+  const [searchDetails, setSearchDetails] = useState([]);
+  const [isvisiable,setisVisiable]=useState(false)
+  
+
+  // search api
+  const searchApi = async (e) => {
+    e.preventDefault();
+    const obj = {
+      name: search,
+    };
+    console.log("obj", obj);
+    try {
+      const res = await axios.get(`/search/${search}`);
+      setSearchDetails(res.data.data);
+      setisVisiable(true);
+      console.log("search response+++", res);
+    } catch (error) {
+      console.error("Error fetching:", error);
+    }
+    // axios
+    //   .get("/search", obj)
+    //   .then((res) => {
+    //     console.log("res", res);
+    //   })
+    //   .catch((err) => console.log(err));
+
+    // fetch("/search", obj)
+    //   .then((response) => response.json())
+    //   .then((json) => console.log(json));
+  };
 
   //fetch getdata
   const getApi = async () => {
@@ -29,7 +60,7 @@ const Teacher = () => {
     }
     setLoading(false);
   };
- 
+
   //sweetalert delete
   const DeleteTeacherDetails = async (id) => {
     Swal.fire({
@@ -99,7 +130,7 @@ const Teacher = () => {
     );
   }
 
-  //pagination 
+  //pagination
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
   const records = teachers.slice(firstIndex, lastIndex);
@@ -112,8 +143,45 @@ const Teacher = () => {
       <Navbar />
       <Sidebar />
       <main id="main" className="main">
+        {/* search bar */}
+        <div className="search-bar">
+          <form
+            className="search-form d-flex align-items-center"
+            method="POST"
+            action="#"
+          >
+            <input
+              type="text"
+              id="form3Example3"
+              className="form-control"
+              placeholder="Teacher Name"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              style={{ width: 280 }}
+            />
+            <button onClick={searchApi}>Search</button>
+            {/* <button
+             
+              type="submit"
+              title="Search"
+              onClick={searchApi}
+            >
+              <i className="bi bi-search" />
+            </button> */}
+          </form>
+        </div>
+        {/* <button
+        style={{marginLeft:-123}}
+          className="btn btn-primary btn-sm"
+          type="button"
+          onClick={searchApi}
+        >
+          Search
+        </button> */}
+
         <div className="pagetitle">
           <h1>Teacher Data Tables</h1>
+
           <nav>
             <ol className="breadcrumb">
               <li className="breadcrumb-item">
@@ -130,7 +198,12 @@ const Teacher = () => {
                       alt=""
                       width="40"
                       height="40"
-                      style={{ marginLeft: 150, marginTop: -40, height: 60, width: 60 }}
+                      style={{
+                        marginLeft: 150,
+                        marginTop: -40,
+                        height: 60,
+                        width: 60,
+                      }}
                     />
                   </caption>
                 </NavLink>
@@ -145,7 +218,7 @@ const Teacher = () => {
               <div className="card">
                 <div className="card-body">
                   <h5 className="card-title">Datatables: </h5>
-                  {records.length > 0 ? (
+                  {records.length > 0 && !isvisiable ? (
                     <table className="table datatable">
                       <thead>
                         <tr>
@@ -163,7 +236,69 @@ const Teacher = () => {
                         <tbody key={index}>
                           <tr>
                             <td>
-                              <strong>{(currentPage - 1) * recordsPerPage + index + 1}</strong>
+                              <strong>
+                                {(currentPage - 1) * recordsPerPage + index + 1}
+                              </strong>
+                            </td>
+                            <td>{item.Teacher_Name}</td>
+                            <td>{item.Depterment}</td>
+                            <td>{item.Email}</td>
+                            <td>{item.Phone}</td>
+                            <td>{item.City}</td>
+                            <td>{item.Age}</td>
+                            <td>
+                              <Link to={`/view/${item._id}`}>
+                                <img src={view} alt="" width="30" height="30" />
+                              </Link>
+                            </td>
+                            <td>
+                              <Link to={`/update/${item._id}`}>
+                                <img src={edit} alt="" width="30" height="30" />
+                              </Link>
+                            </td>
+                            <td>
+                              <img
+                                src={deleteuser}
+                                alt=""
+                                width="30"
+                                height="30"
+                                onClick={() => DeleteTeacherDetails(item._id)}
+                                style={{ cursor: "pointer" }}
+                              />
+                            </td>
+                          </tr>
+                        </tbody>
+                      ))}
+                    </table>
+                  ) : (
+                    <div className="alert alert-info" role="alert">
+                      <h4 style={{ marginLeft: 300 }}>Found</h4>
+                    </div>
+                  )}
+
+           
+
+                  {searchDetails.length > 0 && isvisiable ? (
+                    <table className="table datatable">
+                      <thead>
+                        <tr>
+                          <th>Sl.No</th>
+                          <th>Name</th>
+                          <th>Department</th>
+                          <th>Email</th>
+                          <th>Phone</th>
+                          <th>City</th>
+                          <th>Age</th>
+                          <th colSpan="3">Action</th>
+                        </tr>
+                      </thead>
+                      {searchDetails.map((item, index) => (
+                        <tbody key={index}>
+                          <tr>
+                            <td>
+                              <strong>
+                                {(currentPage - 1) * recordsPerPage + index + 1}
+                              </strong>
                             </td>
                             <td>{item.Teacher_Name}</td>
                             <td>{item.Depterment}</td>
@@ -210,8 +345,17 @@ const Teacher = () => {
                         </a>
                       </li>
                       {numbers.map((n, i) => (
-                        <li className={`page-item ${currentPage === n ? "active" : ""}`} key={i}>
-                          <a href="#" className="page-link" onClick={() => changePage(n)}>
+                        <li
+                          className={`page-item ${
+                            currentPage === n ? "active" : ""
+                          }`}
+                          key={i}
+                        >
+                          <a
+                            href="#"
+                            className="page-link"
+                            onClick={() => changePage(n)}
+                          >
                             {n}
                           </a>
                         </li>

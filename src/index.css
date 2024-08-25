@@ -58,3 +58,20 @@
   width: 100% !important;
   margin-top: 100px !important;
 }
+
+
+/* teacher student count */
+/* .teachers{
+  margin-left: 40px;
+  justify-content: space-between;
+  margin-right:1.200em
+ 
+}
+.students{
+  margin-right:1.200em
+} */
+ .count{
+  width: 20px;
+  height: 20px;
+  background-color:rgb(2, 178, 175)
+ }

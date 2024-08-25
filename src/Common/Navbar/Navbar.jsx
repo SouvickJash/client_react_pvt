@@ -10,27 +10,35 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [profile, setProfile] = useState({});
+  const [profileImage, setProfileImage] = useState("");
 
   const [show, setShow] = useState(false);
   const [show1, setShow1] = useState(false);
   const [password, setPassword] = useState("");
   const [confrompassword, setConfirmPassword] = useState("");
+ 
+
+ 
 
   const getAdminApi = async () => {
     const responce = await axios.get("/admin/getdata");
-    // console.log("profile_image+++++", responce);
+    // console.log("admin profile_image+++++", responce.data.userData[0].image);
+    const concat = "http://localhost:3002/" + responce.data.userData[1].image;
+    console.log("concat", concat);
+    setProfileImage(concat);
     setProfile(responce?.data);
   };
+
   const togglePopup = () => {
     setIsOpen(!isOpen);
   };
-    //show password
-    const passwordShow = () => {
-      setShow(!show);
-    };
-    const passwordShow1 = () => {
-      setShow1(!show1);
-    };
+  //show password
+  const passwordShow = () => {
+    setShow(!show);
+  };
+  const passwordShow1 = () => {
+    setShow1(!show1);
+  };
   //change password api
   const submitPass = async (e) => {
     e.preventDefault();
@@ -99,31 +107,19 @@ const Navbar = () => {
           <i className="bi bi-list toggle-sidebar-btn" />
         </div>
         {/* End Logo */}
-        <div className="search-bar">
-          <form
-            className="search-form d-flex align-items-center"
-            method="POST"
-            action="#"
-          >
-            <input
-              type="text"
-              name="query"
-              placeholder="Search"
-              title="Enter search keyword"
-            />
-            <button type="submit" title="Search">
-              <i className="bi bi-search" />
-            </button>
-          </form>
-        </div>
 
+
+   
         {/* End Search Bar */}
         <nav className="header-nav ms-auto">
           {isOpen && (
             <DeletePopup
               content={
                 <>
-                  <div className="nested_popupcontent" style={{marginTop:-80}}>
+                  <div
+                    className="nested_popupcontent"
+                    style={{ marginTop: -80 }}
+                  >
                     {/* <h6> Are you want to delete selected file?</h6> */}
 
                     <form className="w-50a mx-auto mt-3 mb-5 p-5 border border-primary rounded-lg bg-light">
@@ -141,13 +137,13 @@ const Navbar = () => {
                           onChange={(e) => setPassword(e.target.value)}
                         />
                         <img
-                            src={view}
-                            alt=""
-                            width="30"
-                            height="40"
-                            onClick={passwordShow}
-                            style={{ marginTop: -66, marginLeft: 215 }}
-                          />
+                          src={view}
+                          alt=""
+                          width="30"
+                          height="40"
+                          onClick={passwordShow}
+                          style={{ marginTop: -66, marginLeft: 215 }}
+                        />
                       </div>
                       <div
                         class="form-group text-left"
@@ -162,17 +158,17 @@ const Navbar = () => {
                           value={confrompassword}
                           onChange={(e) => setConfirmPassword(e.target.value)}
                         />
-                        
-                          <img
-                            src={view}
-                            alt=""
-                            width="30"
-                            height="40"
-                            onClick={passwordShow1}
-                            style={{ marginTop: -66, marginLeft:215 }}
-                          />
+
+                        <img
+                          src={view}
+                          alt=""
+                          width="30"
+                          height="40"
+                          onClick={passwordShow1}
+                          style={{ marginTop: -66, marginLeft: 215 }}
+                        />
                       </div>
-                  
+
                       <div className="text-left">
                         <button
                           onClick={submitPass}
@@ -202,12 +198,21 @@ const Navbar = () => {
                 href="#"
                 data-bs-toggle="dropdown"
               >
-                <img
-                  src="assets/img/profile-img.jpg" //image set
-                  // src={profile?.data?.data?.userData?.image}
-                  alt="Profile"
-                  className="rounded-circle"
-                />
+                {profileImage ? (
+                  <img
+                    src={profileImage}
+                    alt="Profile"
+                    className="rounded-circle"
+                    style={{ width: 40, height: 50 }}
+                  />
+                ) : (
+                  <img
+                    src="assets/img/profile-img.jpg"
+                    alt="Profile"
+                    className="rounded-circle"
+                  />
+                )}
+
                 <span className="d-none d-md-block dropdown-toggle ps-2">
                   Souvick
                 </span>
