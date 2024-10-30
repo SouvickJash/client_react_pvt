@@ -23,7 +23,7 @@ const Navbar = () => {
   const getAdminApi = async () => {
     const responce = await axios.get("/admin/getdata");
     // console.log("admin profile_image+++++", responce.data.userData[0].image);
-    const concat = "http://localhost:3002/" + responce.data.userData[1].image;
+    const concat = "http://localhost:3002/" + responce.data.userData[0].image;
     console.log("concat", concat);
     setProfileImage(concat);
     setProfile(responce?.data);

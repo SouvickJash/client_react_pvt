@@ -203,14 +203,6 @@ const Home = () => {
                         width={300}
                         marginLeft={200}
                       />
-
-
-                      <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <div className="count"></div>
-                        <span className="teachers">Teachers</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <span className="students">Students</span>
-                      </div>
-                      
                       
                     </div>
                   </div>

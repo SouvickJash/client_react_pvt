@@ -151,7 +151,7 @@ const Teacher = () => {
             action="#"
           >
             <input
-              type="text"
+          
               id="form3Example3"
               className="form-control"
               placeholder="Teacher Name"
@@ -159,7 +159,7 @@ const Teacher = () => {
               onChange={(e) => setSearch(e.target.value)}
               style={{ width: 280 }}
             />
-            <button onClick={searchApi}>Search</button>
+            <button class="btn btn-primary btn-sm" onClick={searchApi} style={{marginLeft:10}}>Search</button>
             {/* <button
              
               type="submit"
@@ -178,7 +178,7 @@ const Teacher = () => {
         >
           Search
         </button> */}
-
+  
         <div className="pagetitle">
           <h1>Teacher Data Tables</h1>
 

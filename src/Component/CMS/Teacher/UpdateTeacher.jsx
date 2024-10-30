@@ -11,74 +11,93 @@ import "react-toastify/dist/ReactToastify.css";
 
 const UpdateTeacher = () => {
   const { id } = useParams();
-  const[edit,setEdit]=useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const [teacher, setTeacher] = useState("");
-  const [depterment, setDepterment] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [city, setCity] = useState("");
-  const [age, setAge] = useState("");
+  const [values, setValues] = useState({
+    Teacher_Name: "",
+    Depterment: "",
+    Email: "",
+    Phone: "",
+    City: "",
+    Age: "",
+  });
 
+  //getapi2
+  // const getEditApi = async () => {
+  //   try {
+  //     const response = await axios.get(`/edit/${id}`);
+  //     // console.log("Editapi",response)
+  //     setEdit(response.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
+  // const getTeacherDetails = async (e) => {
+  //   e.preventDefault();
+  //   var obj = {
+  //     id: id,
+  //     Teacher_Name: teacher,
+  //     Depterment: depterment,
+  //     Email: email,
+  //     Phone: phone,
+  //     City: city,
+  //     Age: age,
+  //   };
+  //   console.log("value", obj);
 
-  
-  
-//getapi2
-  const getEditApi = async () => {
-    try {
-      const response = await axios.get(`/edit/${id}`);
-      // console.log("Editapi",response)
-      setEdit(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+  //   await axios
+  //     .put(`/update/${id}`,obj)
+  //     .then((response) => {
+  //       console.log("response+++", response);
 
-  };
+  //       if (response.data.status === 200) {
+  //         toast.success(response.data.message);
+  //         navigate("/teacher");
 
-  const getTeacherDetails = async (e) => {
-    e.preventDefault();
-    var obj = {
-      id: id,
-      Teacher_Name: teacher,
-      Depterment: depterment,
-      Email: email,
-      Phone: phone,
-      City: city,
-      Age: age,
-    };
-    console.log("value", obj);
+  //       } else if (response.data.status === 404) {
+  //         console.log("response.status", response.data.status);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log("error++++", error);
 
-    await axios
-      .put(`/update/${id}`,obj)
-      .then((response) => {
-        console.log("response+++", response);
+  //       // if (error.response) {
+  //       //   toast.error(error.response.data.error); //working
+  //       // }
+  //     });
+  // };
 
-        if (response.data.status === 200) {
-          toast.success(response.data.message);
-          navigate("/teacher");
-
-        } else if (response.data.status === 404) {
-          console.log("response.status", response.data.status);
-        }
+  useEffect(() => {
+    axios
+      .get(`/edit/${id}`)
+      .then((res) => {
+        setValues({
+          ...values,
+          Teacher_Name: res.data.data.Teacher_Name,
+          Depterment: res.data.data.Depterment,
+          Email: res.data.data.Email,
+          Phone: res.data.data.Phone,
+          City: res.data.data.City,
+          Age: res.data.data.Age,
+        });
       })
-      .catch((error) => {
-        console.log("error++++", error);
+      .catch((err) => console.log(err));
+  }, []);
 
-        // if (error.response) {
-        //   toast.error(error.response.data.error); //working
-        // }
-      });
+  //  update data
+  //update data
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .put(`/update/${id}`, values)
+      .then((res) => {
+        toast.success("Data updated successfully");
+        navigate("/teacher");
+      })
+      .catch((err) => console.log(err));
   };
 
-
-useEffect(()=>{
-  getEditApi();
-},[])
-console.log("edit........",edit)
-
-  
   setTimeout(() => {
     setLoading(false);
   }, 500);
@@ -102,6 +121,7 @@ console.log("edit........",edit)
       </>
     );
   }
+
   return (
     <>
       <section className="background-radial-gradient overflow-hidden">
@@ -141,8 +161,6 @@ console.log("edit........",edit)
                     >
                       Create an Teacher Account
                     </h5>
-                   
-                 
                   </div>
                   <NavLink className="nav-link1" to="/home">
                     <caption>
@@ -158,7 +176,7 @@ console.log("edit........",edit)
                     </caption>
                   </NavLink>
                   {/* <form onSubmit={handleSubmit}> */}
-                  <form>
+                  <form onSubmit={handleSubmit}>
                     {/* teacher name */}
                     <div data-mdb-input-init className="form-outline mb-4">
                       <input
@@ -166,12 +184,11 @@ console.log("edit........",edit)
                         id="form3Example3"
                         className="form-control"
                         placeholder="Teacher Name"
-                        // value={teacher}
-                        onChange={(e) => setTeacher(e.target.value)}
-                        defaultValue={edit.data.Teacher_Name}
-                      
-
-                 
+                        name="Teacher_Name"
+                        value={values.Teacher_Name}
+                        onChange={(e) =>setValues({ ...values, Teacher_Name: e.target.value })}
+                          
+                        
                       />
                     </div>
                     {/* depterment */}
@@ -181,10 +198,9 @@ console.log("edit........",edit)
                         id="form3Example3"
                         className="form-control"
                         placeholder="Depterment"
-                        // value={depterment}
-                        onChange={(e) => setDepterment(e.target.value)}
-                        defaultValue={edit.data.Depterment}
-                      
+                        name="Depterment"
+                        value={values.Depterment}
+                        onChange={(e) =>setValues({ ...values, Depterment: e.target.value })}
                       />
                     </div>
 
@@ -195,10 +211,10 @@ console.log("edit........",edit)
                         id="form3Example3"
                         className="form-control"
                         placeholder="Email"
-                        // value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        defaultValue={edit.data.Email}
-                     
+                        name="Email"
+                        value={values.Email}
+                        onChange={(e) =>setValues({ ...values, Email: e.target.value })}
+                        // onChange={(e) => setEmail(e.target.value)}
                       />
                     </div>
                     {/* phone */}
@@ -208,9 +224,10 @@ console.log("edit........",edit)
                         id="form3Example3"
                         className="form-control"
                         placeholder="Phone"
-                        // value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        defaultValue={edit.data.Phone}
+                        name="Phone"
+                        value={values.Phone}
+                        onChange={(e) =>setValues({ ...values, Phone: e.target.value })}
+                        // onChange={(e) => setPhone(e.target.value)}
                       />
                     </div>
                     {/* City */}
@@ -220,10 +237,10 @@ console.log("edit........",edit)
                         id="form3Example3"
                         className="form-control"
                         placeholder="City"
-                        // value={city}
-                        onChange={(e) => setCity(e.target.value)}
-                        defaultValue={edit.data.City}
-            
+                        name="City"
+                        value={values.City}
+                        onChange={(e) =>setValues({ ...values, City: e.target.value })}
+                        // onChange={(e) => setCity(e.target.value)}
                       />
                     </div>
                     {/* age */}
@@ -233,10 +250,10 @@ console.log("edit........",edit)
                         id="form3Example3"
                         className="form-control"
                         placeholder="Age"
-                        // value={age}
-                        onChange={(e) => setAge(e.target.value)}
-                        defaultValue={edit.data.Age}
-       
+                        name="Age"
+                        value={values.Age}
+                        onChange={(e) =>setValues({ ...values, Age: e.target.value })}
+                        // onChange={(e) => setAge(e.target.value)}
                       />
                     </div>
 
@@ -245,7 +262,7 @@ console.log("edit........",edit)
                       data-mdb-button-init
                       data-mdb-ripple-init
                       className="btn btn-dark btn-block mb-4"
-                      onClick={getTeacherDetails}
+                      // onClick={getTeacherDetails}
                     >
                       Update
                     </button>
@@ -267,7 +284,7 @@ console.log("edit........",edit)
           </div>
         </div>
       </section>
-      <ToastContainer/>
+      <ToastContainer />
     </>
   );
 };

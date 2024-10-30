@@ -50,7 +50,7 @@ const Login = () => {
           // alert(response.data.message)
 
           localStorage.setItem("token", response.data.token); //settoken
-          localStorage.setItem("id", response.data.info[0]._id);
+          localStorage.setItem("id", response.data.info[0]._id);  //image
           // console.log("helllooo", localStorage);
           toast.success(response.data.message);
           navigate("/home");

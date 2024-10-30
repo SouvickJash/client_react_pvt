@@ -95,13 +95,13 @@ const Sidebar = () => {
           </li> */}
           {/* End Tables Nav */}
 
-          <li className="nav-heading">Pages</li>
+          {/* <li className="nav-heading">Pages</li>
           <li className="nav-item">
             <a className="nav-link collapsed" href="users-profile.html">
               <i className="bi bi-person" />
               <span>Profile</span>
             </a>
-          </li>
+          </li> */}
           {/* End Profile Page Nav */}
 
           <li className="nav-item">
@@ -111,12 +111,12 @@ const Sidebar = () => {
             </a>
           </li>
           {/* End Contact Page Nav */}
-          <li className="nav-item">
+          {/* <li className="nav-item">
             <a className="nav-link collapsed" href="/register">
               <i className="bi bi-card-list" />
               <span>Register</span>
             </a>
-          </li>
+          </li> */}
           {/* End Register Page Nav */}
           {/* <li className="nav-item">
             <a className="nav-link collapsed" href="/">

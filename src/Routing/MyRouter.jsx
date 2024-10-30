@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "../Component/CMS/Home/Home";
 import Login from "../Component/Auth/Login/Login";
-import Changepassword from "../Component/CMS/Changepassword/Changepassword";
+// import Changepassword from "../Component/CMS/Changepassword/Changepassword";
 import Register from "../Component/Auth/Register/Register";
 import Forgetpassword from "../Component/CMS/Forgetpassword/Forgetpassword";
 import Resetpassword from "../Component/CMS/Resetpassword/Resetpassword";
@@ -17,6 +17,7 @@ import StudentDetails from "../Component/CMS/Student/StudentDetails";
 import StudentAdd from "../Component/CMS/Student/StudentAdd";
 import StudentView from "../Component/CMS/Student/StudentView";
 import StudentUpdate from "../Component/CMS/Student/StudentUpdate";
+import DragandDrop from "../Component/CMS/ImageUpload/DragandDrop";
 
 const MyRouter = () => {
   return (
@@ -41,6 +42,7 @@ const MyRouter = () => {
           <Route path='/studentadd' element={<StudentAdd/>}/>
           <Route path='/viewdetails/:id' element={<StudentView/>}/>
           <Route path='/studentupdate/:id' element={<StudentUpdate/>}/>
+          <Route path='/imageupload' element={<DragandDrop/>}/>
 
           <Route path="/*" element={<Pagenotfound />} />
         </Routes>
